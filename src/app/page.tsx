@@ -6,7 +6,7 @@ export default function Home() {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
-          src="/fit/next.svg"
+          src="/fit-distance/next.svg"
           alt="Next.js logo"
           width={180}
           height={38}
@@ -34,7 +34,7 @@ export default function Home() {
           >
             <Image
               className="dark:invert"
-              src="/fit/vercel.svg"
+              src="/fit-distance/vercel.svg"
               alt="Vercel logomark"
               width={20}
               height={20}
@@ -60,7 +60,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/fit/file.svg"
+            src="/fit-distance/file.svg"
             alt="File icon"
             width={16}
             height={16}
@@ -75,7 +75,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/fit/window.svg"
+            src="/fit-distance/window.svg"
             alt="Window icon"
             width={16}
             height={16}
@@ -90,7 +90,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/fit/globe.svg"
+            src="/fit-distance/globe.svg"
             alt="Globe icon"
             width={16}
             height={16}

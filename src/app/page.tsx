@@ -1,4 +1,28 @@
+'use client';
+
+import { useState } from "react";
+
 export default function Home() {
+  const [file, setFile] = useState<File | null>(null);
+  const [distance, setDistance] = useState<number>(0);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleDistanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDistance(parseFloat(event.target.value));
+  };
+
+  const handleUpdate = async () => {
+    if (!file) {
+      alert("Please upload a FIT file.");
+      return;
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded-lg p-6 max-w-sm min-w-[500px]">
@@ -13,6 +37,7 @@ export default function Home() {
               id="file-upload"
               type="file"
               accept=".fit"
+              onChange={handleFileChange}
               className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm"
             />
           </div>
@@ -28,12 +53,14 @@ export default function Home() {
               min="0"
               step="0.01"
               defaultValue="0"
+              onChange={handleDistanceChange}
               className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm"
             />
           </div>
         </div>
         <button
           type="button"
+          onClick={handleUpdate}
           className="mt-6 cursor-pointer w-full py-2.5 bg-black text-white font-semibold text-sm rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2">
             Update
         </button>

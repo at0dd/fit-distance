@@ -176,7 +176,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded-lg p-6 max-w-sm min-w-[500px]">
         <h1 className="text-2xl font-bold">FIT Distance</h1>
         <p className="text-gray-600 mb-4">
@@ -203,6 +203,24 @@ export default function Home() {
         >
           Update
         </button>
+      </div>
+      <div className="flex justify-center w-full mt-4 text-sm text-gray-600">
+        <a
+          href="https://github.com/at0dd/fit-distance"
+          className="mx-2 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.fitfileviewer.com/"
+          className="mx-2 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          FIT File Viewer
+        </a>
       </div>
     </div>
   )

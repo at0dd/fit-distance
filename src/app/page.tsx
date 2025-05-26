@@ -1,27 +1,82 @@
-'use client';
+'use client'
 
-import { useState } from "react";
+import { Decoder, Stream } from '@garmin/fitsdk'
+import { useState } from 'react'
 
 export default function Home() {
-  const [file, setFile] = useState<File | null>(null);
-  const [distance, setDistance] = useState<number>(0);
+  const [file, setFile] = useState<File | null>(null)
+  const [distance, setDistance] = useState<number>(0)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
+      setFile(event.target.files[0])
     }
-  };
+  }
 
   const handleDistanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDistance(parseFloat(event.target.value));
-  };
+    setDistance(parseFloat(event.target.value))
+  }
 
   const handleUpdate = async () => {
     if (!file) {
-      alert("Please upload a FIT file.");
-      return;
+      alert('Please upload a FIT file.')
+      return
     }
-  };
+
+    const reader = new FileReader()
+    reader.onload = function (e) {
+      try {
+        const arrayBuffer = e.target?.result
+        if (arrayBuffer && arrayBuffer instanceof ArrayBuffer) {
+          const stream = new Stream(arrayBuffer)
+          const decoder = new Decoder(stream)
+
+          if (!decoder.isFIT()) {
+            alert('The file is not a valid FIT file.')
+            return
+          }
+
+          if (!decoder.checkIntegrity()) {
+            alert('The FIT file is corrupted.')
+            return
+          }
+
+          const { messages } = decoder.read()
+
+          console.log('MESSAGES', messages)
+
+          const distanceInMeters = distance * 1609.34
+          messages.sessionMesgs[0].totalDistance = distanceInMeters
+
+          // const encoder = new Encoder()
+
+          // // TODO: Write messages.
+
+          // const uint8Array = encoder.close()
+          // const blob = new Blob([uint8Array], {
+          //   type: 'application/octet-stream'
+          // })
+
+          // const originalName = file.name.replace(/\.fit$/i, '')
+          // const editedName = `${originalName}-edited.fit`
+
+          // const url = URL.createObjectURL(blob)
+          // const a = document.createElement('a')
+          // a.href = url
+          // a.download = editedName
+          // document.body.appendChild(a)
+          // a.click()
+          // document.body.removeChild(a)
+          // URL.revokeObjectURL(url)
+        }
+      } catch (error) {
+        console.error('Error:', error)
+        alert('An unexpected error occurred. Please try again.')
+        return
+      }
+    }
+    reader.readAsArrayBuffer(file)
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -61,10 +116,11 @@ export default function Home() {
         <button
           type="button"
           onClick={handleUpdate}
-          className="mt-6 cursor-pointer w-full py-2.5 bg-black text-white font-semibold text-sm rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2">
-            Update
+          className="mt-6 cursor-pointer w-full py-2.5 bg-black text-white font-semibold text-sm rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2"
+        >
+          Update
         </button>
       </div>
     </div>
-  );
+  )
 }

@@ -1,0 +1,6 @@
+build/
+**/vendor/*
+**/*.yaml
+**/*.yml
+node_modules/
+.next
